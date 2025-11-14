@@ -153,11 +153,11 @@ function showEndOfCards() {
 
 // Page navigation
 function showPage(page) {
-    // Hide all pages
-    document.getElementById('app').style.display = 'none';
-    document.getElementById('hunt-page').classList.add('hidden');
-    document.getElementById('create-page').classList.add('hidden');
-    document.getElementById('profile-page').classList.add('hidden');
+    // Hide all pages first
+    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+    
+    // Get the main app container
+    const mainApp = document.getElementById('app');
     
     // Update nav buttons
     document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -167,18 +167,28 @@ function showPage(page) {
     // Show selected page
     switch(page) {
         case 'swipe':
-            document.getElementById('app').style.display = 'flex';
+            // Show main swipe interface
+            mainApp.style.display = 'flex';
+            document.getElementById('hunt-page').classList.add('hidden');
+            document.getElementById('create-page').classList.add('hidden');
+            document.getElementById('profile-page').classList.add('hidden');
             document.querySelectorAll('.nav-btn')[0].classList.add('active');
             break;
         case 'hunt':
+            // Hide main app, show hunt page
+            mainApp.style.display = 'none';
             document.getElementById('hunt-page').classList.remove('hidden');
             document.querySelectorAll('.nav-btn')[1].classList.add('active');
             break;
         case 'create':
+            // Hide main app, show create page
+            mainApp.style.display = 'none';
             document.getElementById('create-page').classList.remove('hidden');
             document.querySelectorAll('.nav-btn')[2].classList.add('active');
             break;
         case 'profile':
+            // Hide main app, show profile page
+            mainApp.style.display = 'none';
             document.getElementById('profile-page').classList.remove('hidden');
             document.querySelectorAll('.nav-btn')[3].classList.add('active');
             break;
