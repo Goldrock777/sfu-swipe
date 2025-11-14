@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SFU Swipe - Campus Social Marketplace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">SFU Swipe</div>
+            <div class="streak">🔥 7</div>
+        </header>
+
+        <!-- Swipe Card -->
+        <div class="card-container">
+            <div class="card" id="current-card">
+                <div class="card-header">
+                    <span class="category">MARKETPLACE</span>
+                    <span class="time">2 mins ago</span>
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">Selling CMPT 120 Textbook</h2>
+                    <p class="card-description">Great condition, no highlighting. Includes all online codes unused.</p>
+                    <div class="card-price">$40</div>
+                </div>
+                <div class="card-author">
+                    <div class="avatar">🦝</div>
+                    <span>Anonymous Raccoon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="action-btn pass" onclick="swipeCard('left')">❌</button>
+            <button class="action-btn super" onclick="superLike()">⭐</button>
+            <button class="action-btn like" onclick="swipeCard('right')">❤️</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" onclick="showPage('swipe')">
+                <span>📱</span>
+                <span>Swipe</span>
+            </button>
+            <button class="nav-btn" onclick="showPage('hunt')">
+                <span>🎯</span>
+                <span>Hunt</span>
+            </button>
+            <button class="nav-btn" onclick="showPage('create')">
+                <span>➕</span>
+                <span>Create</span>
+            </button>
+            <button class="nav-btn" onclick="showPage('profile')">
+                <span>👤</span>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- QR Scanner Page (Hidden) -->
+    <div id="hunt-page" class="page hidden">
+        <div class="hunt-container">
+            <h1>🎯 QR Hunt</h1>
+            <p>Find QR codes hidden around campus!</p>
+            <div class="qr-stats">
+                <div class="stat">
+                    <span class="stat-value">5</span>
+                    <span class="stat-label">Found</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">50</span>
+                    <span class="stat-label">Coins</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Rare Items</span>
+                </div>
+            </div>
+            <button class="scan-btn" onclick="startScan()">📷 Scan QR Code</button>
+            
+            <div class="hunt-list">
+                <h3>Active Hunts</h3>
+                <div class="hunt-item">
+                    <span>🏆 November Campus Hunt</span>
+                    <span class="progress">3/10</span>
+                </div>
+                <div class="hunt-item">
+                    <span>👕 Wardrobe Week</span>
+                    <span class="progress">1/5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Post Page -->
+    <div id="create-page" class="page hidden">
+        <div class="create-container">
+            <h1>Create Post</h1>
+            <div class="post-type-selector">
+                <button class="type-btn active">Social</button>
+                <button class="type-btn">Marketplace</button>
+                <button class="type-btn">Services</button>
+            </div>
+            <textarea placeholder="What's on your mind?" class="post-input"></textarea>
+            <div class="post-options">
+                <label>
+                    <input type="checkbox" id="anonymous">
+                    <span>Post Anonymously 🦝</span>
+                </label>
+            </div>
+            <button class="post-btn">Post to Feed</button>
+        </div>
+    </div>
+
+    <!-- Profile Page -->
+    <div id="profile-page" class="page hidden">
+        <div class="profile-container">
+            <div class="avatar-large">🦊</div>
+            <h2>Fox Student</h2>
+            <p class="username">@foxstudent</p>
+            
+            <div class="profile-stats">
+                <div class="stat">
+                    <span class="stat-value">156</span>
+                    <span class="stat-label">Points</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">7</span>
+                    <span class="stat-label">Streak</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">12</span>
+                    <span class="stat-label">Items</span>
+                </div>
+            </div>
+            
+            <button class="customize-btn" onclick="customizeAvatar()">🎨 Customize Avatar</button>
+            <button class="wardrobe-btn" onclick="openWardrobe()">👕 My Wardrobe</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
