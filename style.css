@@ -411,3 +411,52 @@ body {
         max-width: 100%;
     }
 }
+/* Page Header Styles */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Fix page layout to show nav bar */
+.page {
+    padding-bottom: 80px; /* Make room for bottom nav */
+}
+
+/* Ensure bottom nav stays at bottom on all pages */
+#hunt-page .bottom-nav,
+#create-page .bottom-nav,
+#profile-page .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-width: 430px;
+    margin: 0 auto;
+}
+
+/* Adjust container heights */
+.hunt-container,
+.create-container,
+.profile-container {
+    height: calc(100vh - 140px); /* Account for header and nav */
+    overflow-y: auto;
+}
