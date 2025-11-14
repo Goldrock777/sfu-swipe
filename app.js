@@ -58,11 +58,11 @@ function swipeCard(direction) {
     if (direction === 'right') {
         card.classList.add('swipe-right');
         points += 5;
-        showNotification('❤️ Saved!');
+        showNotification('Liked');
     } else {
         card.classList.add('swipe-left');
         points += 1;
-        showNotification('👍 Next!');
+        showNotification('Passed');
     }
     
     setTimeout(() => {
@@ -75,7 +75,6 @@ function swipeCard(direction) {
         }
     }, 300);
 }
-
 // Update card content
 function updateCard() {
     const post = posts[currentCardIndex];
