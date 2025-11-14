@@ -7,212 +7,318 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Minimal Header -->
-        <header class="header">
-            <button class="header-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2L15 9L22 10L17 15L18 22L12 19L6 22L7 15L2 10L9 9L12 2Z" stroke="white" stroke-width="2"/>
+    <!-- Main Home Feed -->
+    <div id="home-page" class="active-view">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="header-top">
+                <h1 class="app-logo">swipe</h1>
+                <div class="header-actions">
+                    <button class="icon-btn">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                    <button class="icon-btn">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+                        </svg>
+                        <span class="badge">3</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Category Tabs -->
+            <div class="category-nav">
+                <button class="cat-tab active" onclick="filterHome('all')">For You</button>
+                <button class="cat-tab" onclick="filterHome('food')">Food</button>
+                <button class="cat-tab" onclick="filterHome('marketplace')">Market</button>
+                <button class="cat-tab" onclick="filterHome('social')">Social</button>
+                <button class="cat-tab" onclick="filterHome('services')">Services</button>
+            </div>
+        </header>
+
+        <!-- Featured Section -->
+        <div class="home-content">
+            <!-- Swipe Mode Entry Card -->
+            <div class="swipe-entry-card" onclick="enterSwipeMode()">
+                <div class="swipe-entry-content">
+                    <div class="swipe-icon">
+                        <svg width="40" height="40" fill="white">
+                            <path d="M12 4L14 8L19 9L15.5 12L16.5 17L12 15L7.5 17L8.5 12L5 9L10 8L12 4Z"/>
+                        </svg>
+                    </div>
+                    <div class="swipe-entry-text">
+                        <h3>Start Swiping</h3>
+                        <p>23 new items today</p>
+                    </div>
+                    <svg class="arrow-icon" width="24" height="24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M5 12h14m-7-7l7 7-7 7"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Grid Feed -->
+            <div class="feed-grid" id="home-feed">
+                <!-- Food Items -->
+                <div class="feed-item" data-category="food">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=400&fit=crop" alt="Burger">
+                    <div class="item-overlay">
+                        <span class="item-price">$12</span>
+                        <span class="item-badge">FOOD</span>
+                    </div>
+                    <div class="item-info">
+                        <h4>Burger Combo</h4>
+                        <p>Ready in 15 mins</p>
+                    </div>
+                </div>
+
+                <div class="feed-item" data-category="food">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=400&fit=crop" alt="Pizza">
+                    <div class="item-overlay">
+                        <span class="item-price">$15</span>
+                        <span class="item-badge">FOOD</span>
+                    </div>
+                    <div class="item-info">
+                        <h4>Fresh Pizza</h4>
+                        <p>Pickup at SUB</p>
+                    </div>
+                </div>
+
+                <!-- Social Posts -->
+                <div class="feed-item social-post" data-category="social">
+                    <div class="meme-content">
+                        <p>"When the prof says 'this won't be on the exam' but it's 60% of the test"</p>
+                        <span class="meme-emoji">😭</span>
+                    </div>
+                    <div class="item-info">
+                        <h4>Anonymous Raccoon</h4>
+                        <p>2 hours ago</p>
+                    </div>
+                </div>
+
+                <!-- Marketplace Items -->
+                <div class="feed-item" data-category="marketplace">
+                    <img src="https://images.unsplash.com/photo-1456735190827-d1262f71b8a5?w=400&h=400&fit=crop" alt="Textbook">
+                    <div class="item-overlay">
+                        <span class="item-price">$45</span>
+                        <span class="item-badge">BOOKS</span>
+                    </div>
+                    <div class="item-info">
+                        <h4>CMPT 225 Textbook</h4>
+                        <p>Like new condition</p>
+                    </div>
+                </div>
+
+                <div class="feed-item" data-category="services">
+                    <div class="service-content">
+                        <span class="service-icon">📐</span>
+                        <h4>Math Tutoring</h4>
+                        <p>$25/hour</p>
+                    </div>
+                    <div class="item-info">
+                        <h4>A+ Tutor</h4>
+                        <p>4.9★ (45 reviews)</p>
+                    </div>
+                </div>
+
+                <div class="feed-item" data-category="food">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop" alt="Salad">
+                    <div class="item-overlay">
+                        <span class="item-price">$8</span>
+                        <span class="item-badge">HEALTHY</span>
+                    </div>
+                    <div class="item-info">
+                        <h4>Fresh Salad Bowl</h4>
+                        <p>Vegan • Gluten Free</p>
+                    </div>
+                </div>
+
+                <div class="feed-item" data-category="social">
+                    <div class="meme-content">
+                        <p>"SFU Gondola broke again... guess I'm hiking today"</p>
+                        <span class="meme-emoji">🚡</span>
+                    </div>
+                    <div class="item-info">
+                        <h4>Mountain Climber</h4>
+                        <p>Just now</p>
+                    </div>
+                </div>
+
+                <div class="feed-item" data-category="food">
+                    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop" alt="Bubble Tea">
+                    <div class="item-overlay">
+                        <span class="item-price">$6</span>
+                        <span class="item-badge">DRINKS</span>
+                    </div>
+                    <div class="item-info">
+                        <h4>Bubble Tea</h4>
+                        <p>Buy 2 get 1 free</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active">
+                <svg width="24" height="24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+            </button>
+            <button class="nav-btn" onclick="showSwipeMode()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M12 8v8m-4-4h8"/>
+                </svg>
+                <span>Swipe</span>
+            </button>
+            <button class="nav-btn" onclick="showCreatePost()">
+                <div class="nav-center-btn">+</div>
+                <span>Post</span>
+            </button>
+            <button class="nav-btn">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                <span>Chat</span>
+            </button>
+            <button class="nav-btn">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+                <span>Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Swipe Mode -->
+    <div id="swipe-mode" class="hidden">
+        <!-- Swipe Header -->
+        <header class="swipe-header">
+            <button class="back-btn" onclick="exitSwipeMode()">
+                <svg width="24" height="24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M19 12H5m7-7l-7 7 7 7"/>
                 </svg>
             </button>
-            <div class="logo">swipe</div>
-            <button class="header-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
-                    <path d="M12 6V12L16 16" stroke="white" stroke-width="2"/>
+            <span class="swipe-title">Discover</span>
+            <button class="filter-btn">
+                <svg width="24" height="24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M3 12h18m-6-6h6m-10 12h10m-16-6h2m4 6h2"/>
                 </svg>
-                <span class="notification-dot"></span>
             </button>
         </header>
 
         <!-- Card Stack -->
         <div class="card-stack">
             <div class="card" id="current-card">
-                <!-- Full Image Background -->
                 <div class="card-image">
                     <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=600&fit=crop" alt="Pasta">
-                    
-                    <!-- Gradient Overlay -->
                     <div class="image-gradient"></div>
-                    
-                    <!-- Price Badge -->
                     <div class="price-badge">$10</div>
                     
-                    <!-- Info Overlay -->
                     <div class="card-info">
                         <div class="card-top-row">
                             <span class="card-category">FOOD</span>
-                            <span class="card-distance">0.3 km away</span>
+                            <span class="card-distance">0.3 km</span>
                         </div>
-                        
                         <h2 class="card-title">Creamy Alfredo Pasta</h2>
                         <p class="card-subtitle">Ready in 20 mins • Free delivery</p>
-                        
                         <div class="seller-row">
                             <div class="seller-info">
-                                <img class="seller-pic" src="https://i.pravatar.cc/40?img=3" alt="Seller">
+                                <img class="seller-pic" src="https://i.pravatar.cc/40?img=3">
                                 <span class="seller-name">Alex Chen</span>
-                                <svg class="verified-check" width="16" height="16" viewBox="0 0 24 24" fill="#3B82F6">
-                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                </svg>
                             </div>
-                            <div class="rating">
-                                <span class="stars">★★★★★</span>
-                                <span class="rating-count">4.9</span>
-                            </div>
+                            <div class="rating">★★★★★ 4.9</div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Like/Nope Indicators -->
                 <div class="choice-badge like-badge">WANT</div>
                 <div class="choice-badge nope-badge">PASS</div>
             </div>
-
-            <!-- Background Cards for Stack Effect -->
-            <div class="card card-behind-1"></div>
-            <div class="card card-behind-2"></div>
         </div>
 
         <!-- Action Buttons -->
         <div class="action-row">
-            <button class="action-btn small-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#FCD34D">
-                    <path d="M12 2L9 9H2L7 13L5 20L12 16L19 20L17 13L22 9H15L12 2Z"/>
-                </svg>
-            </button>
-            
-            <button class="action-btn main-btn reject" onclick="swipeCard('left')">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF4458" stroke-width="3">
+            <button class="action-btn reject" onclick="swipeCard('left')">
+                <svg width="30" height="30" fill="none" stroke="#FF4458" stroke-width="3">
                     <path d="M6 6L18 18M6 18L18 6"/>
                 </svg>
             </button>
-            
-            <button class="action-btn main-btn super">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#3B82F6">
-                    <path d="M12 2L15 9L22 10L17 15L18 22L12 19L6 22L7 15L2 10L9 9L12 2Z"/>
+            <button class="action-btn super">
+                <svg width="26" height="26" fill="#3B82F6">
+                    <path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7l3-7z"/>
                 </svg>
             </button>
-            
-            <button class="action-btn main-btn accept" onclick="swipeCard('right')">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="#10B981">
+            <button class="action-btn accept" onclick="swipeCard('right')">
+                <svg width="30" height="30" fill="#10B981">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
             </button>
-            
-            <button class="action-btn small-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="#A855F7">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-            </button>
         </div>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <button class="nav-btn active">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <rect x="3" y="3" width="7" height="7" rx="1"/>
-                    <rect x="14" y="3" width="7" height="7" rx="1"/>
-                    <rect x="3" y="14" width="7" height="7" rx="1"/>
-                    <rect x="14" y="14" width="7" height="7" rx="1"/>
-                </svg>
-            </button>
-            <button class="nav-btn" onclick="showPage('search')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.35-4.35"/>
-                </svg>
-            </button>
-            <button class="nav-btn nav-center" onclick="showPage('create')">
-                <div class="nav-center-btn">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-                        <path d="M12 5v14m-7-7h14"/>
-                    </svg>
-                </div>
-            </button>
-            <button class="nav-btn" onclick="showPage('messages')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
-            </button>
-            <button class="nav-btn" onclick="showPage('profile')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <circle cx="12" cy="10" r="3"/>
-                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
-                </svg>
-            </button>
-        </nav>
     </div>
 
     <!-- Create Post Page -->
-    <div id="create-page" class="page hidden">
+    <div id="create-post" class="hidden">
         <header class="page-header">
-            <button class="back-btn" onclick="showPage('home')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <button class="back-btn" onclick="hideCreatePost()">
+                <svg width="24" height="24" fill="none" stroke="white" stroke-width="2">
                     <path d="M19 12H5m7-7l-7 7 7 7"/>
                 </svg>
             </button>
-            <span class="page-title">New Post</span>
-            <button class="next-btn">Next</button>
+            <span class="page-title">Create Post</span>
+            <button class="post-btn-header">Post</button>
         </header>
 
         <div class="create-container">
-            <!-- Image Upload Area -->
-            <div class="image-upload-area" onclick="selectImage()">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                    <polyline points="21 15 16 10 5 21"/>
-                </svg>
-                <p>Tap to add photo</p>
-                <span class="upload-hint">Good photos sell 5x faster</span>
-            </div>
-
-            <!-- Quick Categories -->
-            <div class="quick-categories">
-                <button class="cat-btn active">
+            <div class="post-type-selector">
+                <button class="type-btn active">
                     <span>🍔</span>
                     <span>Food</span>
                 </button>
-                <button class="cat-btn">
-                    <span>📚</span>
-                    <span>Books</span>
+                <button class="type-btn">
+                    <span>📦</span>
+                    <span>Selling</span>
                 </button>
-                <button class="cat-btn">
-                    <span>👕</span>
-                    <span>Fashion</span>
+                <button class="type-btn">
+                    <span>💼</span>
+                    <span>Service</span>
                 </button>
-                <button class="cat-btn">
-                    <span>🎮</span>
-                    <span>Tech</span>
-                </button>
-                <button class="cat-btn">
+                <button class="type-btn">
                     <span>😂</span>
-                    <span>Memes</span>
+                    <span>Social</span>
                 </button>
             </div>
 
-            <!-- Form Fields -->
-            <div class="form-fields">
-                <input type="text" class="modern-input" placeholder="What are you posting?" maxlength="40">
-                <textarea class="modern-textarea" placeholder="Tell them why it's amazing..." maxlength="120"></textarea>
-                
-                <div class="price-row">
-                    <div class="price-input-wrapper">
-                        <span class="currency">$</span>
-                        <input type="number" class="price-input" placeholder="0">
-                    </div>
-                    <button class="free-toggle">or FREE</button>
+            <div class="image-upload">
+                <div class="upload-box">
+                    <svg width="48" height="48" fill="none" stroke="#9CA3AF" stroke-width="2">
+                        <rect x="3" y="3" width="42" height="42" rx="8"/>
+                        <circle cx="16" cy="16" r="3"/>
+                        <path d="M45 32L33 20L10 43"/>
+                    </svg>
+                    <p>Add Photo</p>
                 </div>
             </div>
 
-            <button class="post-btn">
-                <span>Post to Feed</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-                    <path d="M5 12h14m-7-7l7 7-7 7"/>
-                </svg>
-            </button>
+            <input type="text" class="post-input" placeholder="What are you posting?">
+            <textarea class="post-textarea" placeholder="Add details..."></textarea>
+            
+            <div class="price-section">
+                <input type="number" class="price-input" placeholder="Price (optional)">
+                <select class="location-select">
+                    <option>Pickup Location</option>
+                    <option>AQ</option>
+                    <option>SUB</option>
+                    <option>Library</option>
+                    <option>MBC</option>
+                    <option>Delivery</option>
+                </select>
+            </div>
+
+            <button class="submit-post-btn">Post Now</button>
         </div>
     </div>
 
