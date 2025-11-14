@@ -1,267 +1,870 @@
-// SFU Swipe - Main App Logic
-let currentCardIndex = 0;
-let points = 156;
-let streak = 7;
-let coins = 50;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-// Sample data
-const posts = [
-    {
-        category: 'MARKETPLACE',
-        title: 'Selling CMPT 120 Textbook',
-        description: 'Great condition, no highlighting. Includes all online codes unused.',
-        price: 40,
-        author: 'Anonymous Raccoon',
-        avatar: '🦝',
-        time: '2 mins ago'
-    },
-    {
-        category: 'SOCIAL',
-        title: 'Study group for MATH 152?',
-        description: 'Looking for people to form a study group. Meeting twice a week at the library.',
-        author: 'Study Fox',
-        avatar: '🦊',
-        time: '5 mins ago'
-    },
-    {
-        category: 'SERVICES',
-        title: 'Photography for graduation',
-        description: 'Professional photographer offering graduation photoshoots. Portfolio available.',
-        price: 80,
-        author: 'Photo Owl',
-        avatar: '🦉',
-        time: '10 mins ago'
-    },
-    {
-        category: 'SOCIAL',
-        title: 'Free coffee at MBC!',
-        description: 'Computer Science society giving out free coffee until 3pm today!',
-        author: 'Coffee Bear',
-        avatar: '🐻',
-        time: '15 mins ago'
-    },
-    {
-        category: 'MARKETPLACE',
-        title: 'Nintendo Switch for sale',
-        description: 'Comes with 3 games and pro controller. Perfect for study breaks!',
-        price: 250,
-        author: 'Gamer Eagle',
-        avatar: '🦅',
-        time: '20 mins ago'
+:root {
+    --primary: #7C3AED;
+    --secondary: #EC4899;
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --dark: #1F2937;
+    --darker: #111827;
+    --light: #F3F4F6;
+}
+
+html {
+    height: -webkit-fill-available;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+    color: white;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow: hidden;
+}
+
+#app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 430px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: bold;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+    font-size: 10px;
+    color: #9CA3AF;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.header-stats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.earnings-badge {
+    background: linear-gradient(135deg, #10B981, #059669);
+    padding: 6px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dollar {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.amount {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.label {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.streak {
+    background: rgba(255,255,255,0.1);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+/* Success Banner */
+.success-banner {
+    background: linear-gradient(90deg, rgba(16,185,129,0.2), rgba(168,85,247,0.2));
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+/* Category Tabs */
+.category-tabs {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.category-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 60px;
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.tab-icon {
+    font-size: 20px;
+}
+
+/* Card Container */
+.card-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 130px;
+}
+
+.card {
+    width: 100%;
+    max-width: 350px;
+    background: white;
+    color: var(--dark);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.card.swipe-left {
+    transform: translateX(-150%) rotate(-30deg);
+    opacity: 0;
+}
+
+.card.swipe-right {
+    transform: translateX(150%) rotate(30deg);
+    opacity: 0;
+    border: 3px solid var(--success);
+}
+
+.business-badge {
+    background: linear-gradient(135deg, var(--warning), var(--danger));
+    color: white;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.seller-info {
+    display: flex;
+    gap: 10px;
+}
+
+.seller-avatar {
+    font-size: 32px;
+}
+
+.seller-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.seller-rating {
+    font-size: 12px;
+    color: #6B7280;
+}
+
+.verified-badge {
+    background: var(--success);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.card-content {
+    padding: 20px;
+}
+
+.product-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.product-description {
+    font-size: 14px;
+    color: #4B5563;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.product-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.tag {
+    background: #F3F4F6;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 1px solid #E5E7EB;
+    border-bottom: 1px solid #E5E7EB;
+    margin-bottom: 15px;
+}
+
+.price {
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--success);
+}
+
+.availability {
+    background: rgba(16,185,129,0.1);
+    color: var(--success);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.action-hint {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #9CA3AF;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    position: fixed;
+    bottom: 70px;
+    left: 0;
+    right: 0;
+    max-width: 430px;
+    margin: 0 auto;
+    z-index: 50;
+    background: linear-gradient(to top, var(--darker), transparent);
+}
+
+.action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 20px;
+    border-radius: 15px;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    color: white;
+}
+
+.btn-label {
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.action-btn:active {
+    transform: scale(0.95);
+}
+
+.pass {
+    background: #6B7280;
+}
+
+.message {
+    background: var(--primary);
+}
+
+.buy {
+    background: var(--success);
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    display: flex;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px);
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 100;
+    max-width: 430px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.nav-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: #9CA3AF;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 11px;
+}
+
+.nav-btn.active {
+    color: var(--primary);
+}
+
+.nav-btn span:first-child {
+    font-size: 20px;
+}
+
+.create-btn {
+    position: relative;
+}
+
+.plus-icon {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(124,58,237,0.4);
+}
+
+/* Pages */
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--darker);
+    display: flex;
+    flex-direction: column;
+    max-width: 430px;
+    margin: 0 auto;
+    overflow-y: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Page Header */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.back-btn, .settings-btn, .edit-btn, .preview-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.page-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    padding: 20px;
+}
+
+.earnings-card {
+    background: linear-gradient(135deg, var(--success), #059669);
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.earnings-card h3 {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 10px;
+}
+
+.big-number {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.earnings-stats {
+    display: flex;
+    justify-content: space-around;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-num {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* Quick Actions */
+.quick-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.quick-action-btn {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quick-action-btn:active {
+    transform: scale(0.95);
+}
+
+.action-icon {
+    font-size: 24px;
+}
+
+/* Listings */
+.section h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.listing-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.listing-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.listing-title {
+    font-weight: 600;
+}
+
+.listing-stats {
+    font-size: 12px;
+    color: #9CA3AF;
+}
+
+.listing-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--success);
+}
+
+/* Create Container */
+.create-container {
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
+.business-type-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.biz-type-btn {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.biz-type-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.biz-icon {
+    font-size: 24px;
+}
+
+/* Form Elements */
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.price-input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.price-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    color: white;
+    font-size: 16px;
+}
+
+.availability-select {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    color: white;
+}
+
+.delivery-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.tags-section h4 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #9CA3AF;
+}
+
+.tag-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag-option {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 8px 12px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.tag-option.selected {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.post-listing-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+}
+
+/* Orders */
+.orders-container {
+    padding: 20px;
+}
+
+.order-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.order-tab {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.order-tab.active {
+    background: var(--primary);
+    border-color: var(--primary);
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+.order-status {
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.order-status.pending {
+    background: var(--warning);
+    color: white;
+}
+
+.order-status.ready {
+    background: var(--success);
+    color: white;
+}
+
+.order-info {
+    flex: 1;
+}
+
+.order-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.order-seller, .order-time {
+    font-size: 12px;
+    color: #9CA3AF;
+}
+
+.order-price {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Profile */
+.profile-container {
+    padding: 20px;
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.avatar-large {
+    font-size: 60px;
+    margin-bottom: 15px;
+}
+
+.username {
+    color: #9CA3AF;
+    margin-bottom: 15px;
+}
+
+.profile-badges {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.badge {
+    background: rgba(255,255,255,0.1);
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.business-stats {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.achievement-section h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.achievements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.achievement {
+    background: rgba(255,255,255,0.05);
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.achievement.locked {
+    opacity: 0.4;
+}
+
+.cta-button {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Mobile Responsive */
+@media (max-width: 430px) {
+    #app, .page, .bottom-nav, .action-buttons {
+        max-width: 100%;
     }
-];
-
-// Swipe card function
-function swipeCard(direction) {
-    const card = document.getElementById('current-card');
-    
-    if (direction === 'right') {
-        card.classList.add('swipe-right');
-        points += 5;
-        showNotification('Liked');
-    } else {
-        card.classList.add('swipe-left');
-        points += 1;
-        showNotification('Passed');
-    }
-    
-    setTimeout(() => {
-        currentCardIndex++;
-        if (currentCardIndex < posts.length) {
-            updateCard();
-            card.classList.remove('swipe-left', 'swipe-right');
-        } else {
-            showEndOfCards();
-        }
-    }, 300);
 }
-// Update card content
-function updateCard() {
-    const post = posts[currentCardIndex];
-    const card = document.getElementById('current-card');
-    
-    card.innerHTML = `
-        <div class="card-header">
-            <span class="category">${post.category}</span>
-            <span class="time">${post.time}</span>
-        </div>
-        <div class="card-content">
-            <h2 class="card-title">${post.title}</h2>
-            <p class="card-description">${post.description}</p>
-            ${post.price ? `<div class="card-price">$${post.price}</div>` : ''}
-        </div>
-        <div class="card-author">
-            <div class="avatar">${post.avatar}</div>
-            <span>${post.author}</span>
-        </div>
-    `;
-}
-
-// Super like function
-function superLike() {
-    const card = document.getElementById('current-card');
-    showNotification('Super Liked');
-    points += 10;
-    
-    // Make the card glow and swipe up
-    card.classList.add('swipe-right');
-    
-    setTimeout(() => {
-        currentCardIndex++;
-        if (currentCardIndex < posts.length) {
-            updateCard();
-            card.classList.remove('swipe-left', 'swipe-right');
-        } else {
-            showEndOfCards();
-        }
-    }, 300);
-}
-// Show notification
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0,0,0,0.8);
-        color: white;
-        padding: 20px 40px;
-        border-radius: 50px;
-        font-size: 24px;
-        z-index: 1000;
-        animation: fadeOut 1s ease;
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 1000);
-}
-
-// Show end of cards
-function showEndOfCards() {
-    const container = document.querySelector('.card-container');
-    container.innerHTML = `
-        <div style="text-align: center;">
-            <div style="font-size: 60px; margin-bottom: 20px;">🎉</div>
-            <h2>No more posts!</h2>
-            <p style="color: #9CA3AF; margin-top: 10px;">Check back later or create your own</p>
-            <button onclick="location.reload()" style="
-                margin-top: 20px;
-                padding: 10px 30px;
-                background: #A855F7;
-                color: white;
-                border: none;
-                border-radius: 20px;
-                cursor: pointer;
-            ">Refresh</button>
-        </div>
-    `;
-}
-
-// Page navigation
-function showPage(page) {
-    // Hide all pages first
-    document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
-    
-    // Get the main app container
-    const mainApp = document.getElementById('app');
-    
-    // Update nav buttons
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    
-    // Show selected page
-    switch(page) {
-        case 'swipe':
-            // Show main swipe interface
-            mainApp.style.display = 'flex';
-            document.getElementById('hunt-page').classList.add('hidden');
-            document.getElementById('create-page').classList.add('hidden');
-            document.getElementById('profile-page').classList.add('hidden');
-            document.querySelectorAll('.nav-btn')[0].classList.add('active');
-            break;
-        case 'hunt':
-            // Hide main app, show hunt page
-            mainApp.style.display = 'none';
-            document.getElementById('hunt-page').classList.remove('hidden');
-            document.querySelectorAll('.nav-btn')[1].classList.add('active');
-            break;
-        case 'create':
-            // Hide main app, show create page
-            mainApp.style.display = 'none';
-            document.getElementById('create-page').classList.remove('hidden');
-            document.querySelectorAll('.nav-btn')[2].classList.add('active');
-            break;
-        case 'profile':
-            // Hide main app, show profile page
-            mainApp.style.display = 'none';
-            document.getElementById('profile-page').classList.remove('hidden');
-            document.querySelectorAll('.nav-btn')[3].classList.add('active');
-            break;
-    }
-}
-
-// QR Scanner simulation
-function startScan() {
-    showNotification('Opening camera...');
-    setTimeout(() => {
-        const rewards = [
-            'Found rare hoodie',
-            'Earned 10 coins',
-            'Unlocked SFU T-shirt',
-            'Secret achievement unlocked'
-        ];
-        const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
-        showNotification(randomReward);
-        coins += 10;
-    }, 2000);
-}
-
-// Avatar customization
-function customizeAvatar() {
-    showNotification('Avatar editor coming soon');
-}
-
-// Wardrobe
-function openWardrobe() {
-    showNotification('You have 12 items');
-}
-
-// Add keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') swipeCard('left');
-    if (e.key === 'ArrowRight') swipeCard('right');
-    if (e.key === 'ArrowUp') superLike();
-});
-
-// Add swipe gestures for mobile
-let touchStartX = 0;
-let touchEndX = 0;
-
-document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-});
-
-document.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipeGesture();
-});
-
-function handleSwipeGesture() {
-    if (touchEndX < touchStartX - 50) swipeCard('left');
-    if (touchEndX > touchStartX + 50) swipeCard('right');
-}
-
-// Add CSS for fade animation
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fadeOut {
-        from { opacity: 1; }
-        to { opacity: 0; }
-    }
-`;
-document.head.appendChild(style);
