@@ -3,357 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SFU Swipe - Student Entrepreneur Marketplace</title>
+    <title>SFU Swipe</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app">
-        <!-- Header with Stats -->
+        <!-- Minimal Header -->
         <header class="header">
-            <div class="logo">
-                <span class="logo-text">SFU Swipe</span>
-                <span class="tagline">Entrepreneur Hub</span>
-            </div>
-            <div class="header-stats">
-                <div class="earnings-badge">
-                    <span class="dollar">$</span>
-                    <span class="amount">127</span>
-                    <span class="label">earned</span>
-                </div>
-                <div class="streak">🔥 7</div>
-            </div>
+            <button class="header-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L15 9L22 10L17 15L18 22L12 19L6 22L7 15L2 10L9 9L12 2Z" stroke="white" stroke-width="2"/>
+                </svg>
+            </button>
+            <div class="logo">swipe</div>
+            <button class="header-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2"/>
+                    <path d="M12 6V12L16 16" stroke="white" stroke-width="2"/>
+                </svg>
+                <span class="notification-dot"></span>
+            </button>
         </header>
 
-        <!-- Success Banner -->
-        <div class="success-banner">
-            <span class="banner-text">💰 Jake just sold pasta for $10!</span>
-        </div>
-
-        <!-- Category Tabs -->
-        <div class="category-tabs">
-            <button class="tab-btn active" onclick="filterPosts('all')">
-                <span class="tab-icon">🏪</span>
-                <span>All</span>
-            </button>
-            <button class="tab-btn" onclick="filterPosts('food')">
-                <span class="tab-icon">🍔</span>
-                <span>Food</span>
-            </button>
-            <button class="tab-btn" onclick="filterPosts('marketplace')">
-                <span class="tab-icon">📦</span>
-                <span>Market</span>
-            </button>
-            <button class="tab-btn" onclick="filterPosts('services')">
-                <span class="tab-icon">💼</span>
-                <span>Services</span>
-            </button>
-            <button class="tab-btn" onclick="filterPosts('social')">
-                <span class="tab-icon">😂</span>
-                <span>Memes</span>
-            </button>
-        </div>
-
-        <!-- Swipe Card -->
-        <div class="card-container">
+        <!-- Card Stack -->
+        <div class="card-stack">
             <div class="card" id="current-card">
-                <!-- Business Badge -->
-                <div class="business-badge">🍝 FOOD BUSINESS</div>
-                
-                <div class="card-header">
-                    <div class="seller-info">
-                        <div class="seller-avatar">👨‍🍳</div>
-                        <div>
-                            <div class="seller-name">Pasta Pro</div>
-                            <div class="seller-rating">⭐ 4.8 (23 sales)</div>
+                <!-- Full Image Background -->
+                <div class="card-image">
+                    <img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&h=600&fit=crop" alt="Pasta">
+                    
+                    <!-- Gradient Overlay -->
+                    <div class="image-gradient"></div>
+                    
+                    <!-- Price Badge -->
+                    <div class="price-badge">$10</div>
+                    
+                    <!-- Info Overlay -->
+                    <div class="card-info">
+                        <div class="card-top-row">
+                            <span class="card-category">FOOD</span>
+                            <span class="card-distance">0.3 km away</span>
+                        </div>
+                        
+                        <h2 class="card-title">Creamy Alfredo Pasta</h2>
+                        <p class="card-subtitle">Ready in 20 mins • Free delivery</p>
+                        
+                        <div class="seller-row">
+                            <div class="seller-info">
+                                <img class="seller-pic" src="https://i.pravatar.cc/40?img=3" alt="Seller">
+                                <span class="seller-name">Alex Chen</span>
+                                <svg class="verified-check" width="16" height="16" viewBox="0 0 24 24" fill="#3B82F6">
+                                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div class="rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-count">4.9</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="verified-badge">✓ Verified</div>
                 </div>
 
-                <div class="card-content">
-                    <h2 class="product-title">Homemade Alfredo Pasta</h2>
-                    <p class="product-description">Fresh pasta made daily. Creamy alfredo sauce with real parmesan. Ready in 20 mins!</p>
-                    
-                    <div class="product-tags">
-                        <span class="tag">🚚 Delivery</span>
-                        <span class="tag">🏃 Pickup</span>
-                        <span class="tag">🌱 Vegetarian</span>
-                    </div>
-
-                    <div class="price-section">
-                        <div class="price">$10</div>
-                        <div class="availability">Available Now</div>
-                    </div>
-
-                    <div class="action-hint">
-                        <span class="swipe-left">← Pass</span>
-                        <span class="swipe-right">Buy Now →</span>
-                    </div>
-                </div>
+                <!-- Like/Nope Indicators -->
+                <div class="choice-badge like-badge">WANT</div>
+                <div class="choice-badge nope-badge">PASS</div>
             </div>
+
+            <!-- Background Cards for Stack Effect -->
+            <div class="card card-behind-1"></div>
+            <div class="card card-behind-2"></div>
         </div>
 
         <!-- Action Buttons -->
-        <div class="action-buttons">
-            <button class="action-btn pass" onclick="swipeCard('left')">
-                <span>✖</span>
-                <span class="btn-label">Pass</span>
+        <div class="action-row">
+            <button class="action-btn small-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#FCD34D">
+                    <path d="M12 2L9 9H2L7 13L5 20L12 16L19 20L17 13L22 9H15L12 2Z"/>
+                </svg>
             </button>
-            <button class="action-btn message" onclick="messagesSeller()">
-                <span>💬</span>
-                <span class="btn-label">Ask</span>
+            
+            <button class="action-btn main-btn reject" onclick="swipeCard('left')">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF4458" stroke-width="3">
+                    <path d="M6 6L18 18M6 18L18 6"/>
+                </svg>
             </button>
-            <button class="action-btn buy" onclick="swipeCard('right')">
-                <span>💰</span>
-                <span class="btn-label">Buy</span>
+            
+            <button class="action-btn main-btn super">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="#3B82F6">
+                    <path d="M12 2L15 9L22 10L17 15L18 22L12 19L6 22L7 15L2 10L9 9L12 2Z"/>
+                </svg>
+            </button>
+            
+            <button class="action-btn main-btn accept" onclick="swipeCard('right')">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="#10B981">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+            </button>
+            
+            <button class="action-btn small-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="#A855F7">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
             </button>
         </div>
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <button class="nav-btn active" onclick="showPage('marketplace')">
-                <span>🏪</span>
-                <span>Market</span>
+            <button class="nav-btn active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
             </button>
-            <button class="nav-btn" onclick="showPage('sell')">
-                <span>💰</span>
-                <span>Sell</span>
+            <button class="nav-btn" onclick="showPage('search')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                </svg>
             </button>
-            <button class="nav-btn create-btn" onclick="showPage('create')">
-                <span class="plus-icon">+</span>
+            <button class="nav-btn nav-center" onclick="showPage('create')">
+                <div class="nav-center-btn">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 5v14m-7-7h14"/>
+                    </svg>
+                </div>
             </button>
-            <button class="nav-btn" onclick="showPage('orders')">
-                <span>📋</span>
-                <span>Orders</span>
+            <button class="nav-btn" onclick="showPage('messages')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
             </button>
             <button class="nav-btn" onclick="showPage('profile')">
-                <span>👤</span>
-                <span>Profile</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="10" r="3"/>
+                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
+                </svg>
             </button>
         </nav>
     </div>
 
-    <!-- Sell Dashboard Page -->
-    <div id="sell-page" class="page hidden">
-        <header class="page-header">
-            <button class="back-btn" onclick="showPage('marketplace')">←</button>
-            <span class="page-title">Your Business</span>
-            <button class="settings-btn">⚙️</button>
-        </header>
-        
-        <div class="dashboard-container">
-            <!-- Earnings Overview -->
-            <div class="earnings-card">
-                <h3>Today's Earnings</h3>
-                <div class="big-number">$47</div>
-                <div class="earnings-stats">
-                    <div class="stat-item">
-                        <span class="stat-num">5</span>
-                        <span class="stat-label">Sales</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-num">12</span>
-                        <span class="stat-label">Views</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-num">4.9⭐</span>
-                        <span class="stat-label">Rating</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <button class="quick-action-btn" onclick="showPage('create')">
-                    <span class="action-icon">📝</span>
-                    <span>New Listing</span>
-                </button>
-                <button class="quick-action-btn">
-                    <span class="action-icon">📊</span>
-                    <span>Analytics</span>
-                </button>
-                <button class="quick-action-btn">
-                    <span class="action-icon">🎯</span>
-                    <span>Promote</span>
-                </button>
-            </div>
-
-            <!-- Active Listings -->
-            <div class="section">
-                <h3>Your Active Listings</h3>
-                <div class="listing-item">
-                    <div class="listing-info">
-                        <span class="listing-title">Alfredo Pasta</span>
-                        <span class="listing-stats">3 sold today</span>
-                    </div>
-                    <span class="listing-price">$10</span>
-                </div>
-                <div class="listing-item">
-                    <div class="listing-info">
-                        <span class="listing-title">Meal Prep Pack</span>
-                        <span class="listing-stats">2 pending</span>
-                    </div>
-                    <span class="listing-price">$45</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Create Listing Page -->
+    <!-- Create Post Page -->
     <div id="create-page" class="page hidden">
         <header class="page-header">
-            <button class="back-btn" onclick="showPage('marketplace')">←</button>
-            <span class="page-title">Create Listing</span>
-            <button class="preview-btn" onclick="previewListing()">Preview</button>
+            <button class="back-btn" onclick="showPage('home')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <path d="M19 12H5m7-7l-7 7 7 7"/>
+                </svg>
+            </button>
+            <span class="page-title">New Post</span>
+            <button class="next-btn">Next</button>
         </header>
-        
+
         <div class="create-container">
-            <!-- Business Type Selector -->
-            <div class="business-type-selector">
-                <button class="biz-type-btn active" onclick="selectBusinessType('food')">
-                    <span class="biz-icon">🍔</span>
+            <!-- Image Upload Area -->
+            <div class="image-upload-area" onclick="selectImage()">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <p>Tap to add photo</p>
+                <span class="upload-hint">Good photos sell 5x faster</span>
+            </div>
+
+            <!-- Quick Categories -->
+            <div class="quick-categories">
+                <button class="cat-btn active">
+                    <span>🍔</span>
                     <span>Food</span>
                 </button>
-                <button class="biz-type-btn" onclick="selectBusinessType('product')">
-                    <span class="biz-icon">📦</span>
-                    <span>Product</span>
+                <button class="cat-btn">
+                    <span>📚</span>
+                    <span>Books</span>
                 </button>
-                <button class="biz-type-btn" onclick="selectBusinessType('service')">
-                    <span class="biz-icon">💼</span>
-                    <span>Service</span>
+                <button class="cat-btn">
+                    <span>👕</span>
+                    <span>Fashion</span>
                 </button>
-                <button class="biz-type-btn" onclick="selectBusinessType('meme')">
-                    <span class="biz-icon">😂</span>
-                    <span>Meme/Social</span>
+                <button class="cat-btn">
+                    <span>🎮</span>
+                    <span>Tech</span>
+                </button>
+                <button class="cat-btn">
+                    <span>😂</span>
+                    <span>Memes</span>
                 </button>
             </div>
 
-            <div class="form-section">
-                <input type="text" class="form-input" placeholder="What are you selling?" id="title-input">
-                <textarea class="form-textarea" placeholder="Describe your product/service. Be specific about what makes it great!" id="description-input"></textarea>
+            <!-- Form Fields -->
+            <div class="form-fields">
+                <input type="text" class="modern-input" placeholder="What are you posting?" maxlength="40">
+                <textarea class="modern-textarea" placeholder="Tell them why it's amazing..." maxlength="120"></textarea>
                 
-                <div class="price-input-section">
-                    <input type="number" class="price-input" placeholder="Price $" id="price-input">
-                    <select class="availability-select">
-                        <option>Available Now</option>
-                        <option>Pre-order</option>
-                        <option>Made to Order</option>
-                    </select>
-                </div>
-
-                <div class="delivery-options">
-                    <label class="checkbox-label">
-                        <input type="checkbox" checked>
-                        <span>🚚 Delivery Available</span>
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" checked>
-                        <span>🏃 Pickup at Campus</span>
-                    </label>
-                </div>
-
-                <div class="tags-section">
-                    <h4>Add Tags (help buyers find you)</h4>
-                    <div class="tag-options">
-                        <button class="tag-option">🌱 Vegan</button>
-                        <button class="tag-option">🥛 Dairy-Free</button>
-                        <button class="tag-option">🌾 Gluten-Free</button>
-                        <button class="tag-option">🌶️ Spicy</button>
-                        <button class="tag-option">✅ Halal</button>
-                        <button class="tag-option">🍖 Keto</button>
+                <div class="price-row">
+                    <div class="price-input-wrapper">
+                        <span class="currency">$</span>
+                        <input type="number" class="price-input" placeholder="0">
                     </div>
+                    <button class="free-toggle">or FREE</button>
                 </div>
             </div>
 
-            <button class="post-listing-btn" onclick="createListing()">
-                <span>🚀 Launch Your Product</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Orders Page -->
-    <div id="orders-page" class="page hidden">
-        <header class="page-header">
-            <button class="back-btn" onclick="showPage('marketplace')">←</button>
-            <span class="page-title">Orders</span>
-            <span></span>
-        </header>
-        
-        <div class="orders-container">
-            <div class="order-tabs">
-                <button class="order-tab active">Buying (2)</button>
-                <button class="order-tab">Selling (3)</button>
-            </div>
-
-            <div class="order-item">
-                <div class="order-status pending">PENDING</div>
-                <div class="order-info">
-                    <div class="order-title">Alfredo Pasta</div>
-                    <div class="order-seller">From: Pasta Pro</div>
-                    <div class="order-time">Pickup at 6 PM - MBC</div>
-                </div>
-                <div class="order-price">$10</div>
-            </div>
-
-            <div class="order-item">
-                <div class="order-status ready">READY</div>
-                <div class="order-info">
-                    <div class="order-title">Bubble Tea</div>
-                    <div class="order-seller">From: Boba Runner</div>
-                    <div class="order-time">Ready for pickup!</div>
-                </div>
-                <div class="order-price">$6</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Profile Page (Business Focused) -->
-    <div id="profile-page" class="page hidden">
-        <header class="page-header">
-            <button class="back-btn" onclick="showPage('marketplace')">←</button>
-            <span class="page-title">Profile</span>
-            <button class="edit-btn">Edit</button>
-        </header>
-        
-        <div class="profile-container">
-            <div class="profile-header">
-                <div class="avatar-large">👨‍💼</div>
-                <h2>Alex Chen</h2>
-                <p class="username">@alexeats</p>
-                <div class="profile-badges">
-                    <span class="badge">🏆 Top Seller</span>
-                    <span class="badge">✓ Verified</span>
-                    <span class="badge">🔥 7 Day Streak</span>
-                </div>
-            </div>
-
-            <div class="business-stats">
-                <div class="stat-box">
-                    <div class="stat-number">$486</div>
-                    <div class="stat-label">Total Earned</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">47</div>
-                    <div class="stat-label">Items Sold</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-number">4.9⭐</div>
-                    <div class="stat-label">Rating</div>
-                </div>
-            </div>
-
-            <div class="achievement-section">
-                <h3>Achievements</h3>
-                <div class="achievements">
-                    <div class="achievement">💰 First Sale</div>
-                    <div class="achievement">🚀 10 Sales</div>
-                    <div class="achievement">⭐ 5-Star Seller</div>
-                    <div class="achievement locked">🏅 $500 Club</div>
-                </div>
-            </div>
-
-            <button class="cta-button">
-                <span>📈 View Business Analytics</span>
+            <button class="post-btn">
+                <span>Post to Feed</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                    <path d="M5 12h14m-7-7l7 7-7 7"/>
+                </svg>
             </button>
         </div>
     </div>
