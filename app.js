@@ -100,11 +100,22 @@ function updateCard() {
 // Super like function
 function superLike() {
     const card = document.getElementById('current-card');
-    showNotification('⭐ Super Liked!');
+    showNotification('Super Liked');
     points += 10;
-    swipeCard('right');
+    
+    // Make the card glow and swipe up
+    card.classList.add('swipe-right');
+    
+    setTimeout(() => {
+        currentCardIndex++;
+        if (currentCardIndex < posts.length) {
+            updateCard();
+            card.classList.remove('swipe-left', 'swipe-right');
+        } else {
+            showEndOfCards();
+        }
+    }, 300);
 }
-
 // Show notification
 function showNotification(message) {
     const notification = document.createElement('div');
@@ -196,13 +207,13 @@ function showPage(page) {
 
 // QR Scanner simulation
 function startScan() {
-    showNotification('📷 Opening camera...');
+    showNotification('Opening camera...');
     setTimeout(() => {
         const rewards = [
-            '🎉 Found rare hoodie!',
-            '💰 Earned 10 coins!',
-            '👕 Unlocked SFU T-shirt!',
-            '🏆 Secret achievement unlocked!'
+            'Found rare hoodie',
+            'Earned 10 coins',
+            'Unlocked SFU T-shirt',
+            'Secret achievement unlocked'
         ];
         const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
         showNotification(randomReward);
@@ -212,12 +223,12 @@ function startScan() {
 
 // Avatar customization
 function customizeAvatar() {
-    showNotification('🎨 Avatar editor coming soon!');
+    showNotification('Avatar editor coming soon');
 }
 
 // Wardrobe
 function openWardrobe() {
-    showNotification('👕 You have 12 items!');
+    showNotification('You have 12 items');
 }
 
 // Add keyboard shortcuts
