@@ -189,3 +189,47 @@ document.querySelectorAll('.type-btn').forEach(btn => {
         btn.classList.add('active');
     });
 });
+// Add star/save functionality
+function saveItem() {
+    const card = document.getElementById('current-card');
+    
+    // Add save animation
+    const star = document.createElement('div');
+    star.innerHTML = '⭐';
+    star.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 80px;
+        z-index: 1000;
+        animation: starPop 0.5s ease;
+    `;
+    document.body.appendChild(star);
+    
+    // Save to localStorage (or database)
+    const currentCard = swipeCards[currentCardIndex];
+    let savedItems = JSON.parse(localStorage.getItem('savedItems') || '[]');
+    savedItems.push(currentCard);
+    localStorage.setItem('savedItems', JSON.stringify(savedItems));
+    
+    showNotification('⭐ Saved for later!');
+    
+    setTimeout(() => {
+        star.remove();
+        // Move to next card
+        currentCardIndex++;
+        updateSwipeCard();
+    }, 500);
+}
+
+// Add CSS animation
+const style = document.createElement('style');
+style.textContent += `
+    @keyframes starPop {
+        0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+        50% { transform: translate(-50%, -50%) scale(1.2) rotate(180deg); opacity: 1; }
+        100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); opacity: 0; }
+    }
+`;
+document.head.appendChild(style);
